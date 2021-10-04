@@ -3,11 +3,31 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+// import store from './store/store';
+
+const initialState={todo:[]};
+const add="ADD";
+const del="DELETE";
+
+const todoReducer=(state=initialState,action)=>{
+    switch(action.type){
+        case add:
+            return {todo:[...state.todo,action.payload]};
+        case del:
+            return {todo:state.todo.filter(el=>el!==action.payload)};
+        default:
+            return state; 
+    }
+}
+
+const store=createStore(todoReducer);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
